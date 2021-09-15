@@ -1,0 +1,49 @@
+{
+  "name": "@modusbox/microfrontend-utils",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "author": "Ivan Annovazzi <ivan@modusbox.com>",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/jest": "^26.0.22",
+    "@types/lodash": "^4.14.168",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.3.5",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "prettier-eslint": "^12.0.0",
+    "prettier-eslint-cli": "^5.0.1",
+    "typedoc": "^0.20.35",
+    "typescript": "^4.2.4",
+    "yarn": "^1.22.10"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "prepack": "yarn compile",
+    "test": "jest",
+    "lint": "eslint --ext .js,.ts src --color",
+    "lint-staged": "lint-staged",
+    "docs": "typedoc src/index.ts",
+    "prepare": "husky install",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js,json}'",
+    "version": "node -pe \"require('./package.json').version\""
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declarationMap": true,
+    "lib": ["dom", "es2017", "es2018"],
+    "baseUrl": "src",
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "module": "commonjs",
+    "strict": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "es2017",
+    "sourceMap": true,
+    "declaration": true,
+    "allowJs": true,
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.spec.js"]
+}
