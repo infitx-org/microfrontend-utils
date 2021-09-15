@@ -29,13 +29,6 @@ export default class PubSub {
     return this.unsubscribe(topicName, callback);
   }
 
-  unsubscribe(topic: string, callback: Callback): () => void {
-    const { callbacks } = this.topics[topic];
-    return function unregister() {
-      callbacks.delete(callback);
-    };
-  }
-
   dispatch(topicName: string, message: string, options?: Options): void {
     const { callbacks, messageQueue } = this.getTopic(topicName);
 
@@ -51,7 +44,14 @@ export default class PubSub {
     }
   }
 
-  getTopic(topicName: string): Topic {
+  private unsubscribe(topic: string, callback: Callback): () => void {
+    const { callbacks } = this.topics[topic];
+    return function unregister() {
+      callbacks.delete(callback);
+    };
+  }
+
+  private getTopic(topicName: string): Topic {
     if (!this.topics[topicName]) {
       this.topics[topicName] = {
         callbacks: new Set(),
