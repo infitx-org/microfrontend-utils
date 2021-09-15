@@ -54,4 +54,39 @@ describe('tests the pubsub', () => {
       })
     );
   });
+
+  it('persists the message in the topic queue and deliver on a subscription happening before the expiration', () => {
+    const pubsub = new PubSub();
+    const mockHandleMessage = jest.fn();
+
+    pubsub.dispatch('topic', 'message', { persist: 3000 });
+    jest.advanceTimersByTime(1000);
+
+    pubsub.subscribe('topic', mockHandleMessage);
+    expect(mockHandleMessage).not.toHaveBeenCalled();
+
+    jest.runAllTimers();
+    expect(mockHandleMessage).toHaveBeenCalled();
+    expect(mockHandleMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        topic: 'topic',
+        payload: 'message',
+        date: expect.any(Date),
+      })
+    );
+  });
+
+  it('persists the message in the topic queue and do not deliver on a subscription happening after the expiration', () => {
+    const pubsub = new PubSub();
+    const mockHandleMessage = jest.fn();
+
+    pubsub.dispatch('topic', 'message', { persist: 3000 });
+    jest.advanceTimersByTime(4000);
+
+    pubsub.subscribe('topic', mockHandleMessage);
+    expect(mockHandleMessage).not.toHaveBeenCalled();
+
+    jest.runAllTimers();
+    expect(mockHandleMessage).not.toHaveBeenCalled();
+  });
 });
