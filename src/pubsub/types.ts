@@ -1,10 +1,16 @@
+export type Message = {
+  topic: string;
+  payload: string;
+  date: Date;
+};
+
 export type Options = {
   persist: number;
 };
 
 export type MessageQueue = {
   receivers: Set<Callback>;
-  message: string;
+  message: Message;
 };
 
 export type Topic = {
@@ -12,4 +18,4 @@ export type Topic = {
   messageQueue: Set<MessageQueue>;
 };
 
-export type Callback = (message: string) => void;
+export type Callback = (message: Message) => void;
