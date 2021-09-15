@@ -1,13 +1,13 @@
-import type { Options, Callback, Topic } from './types';
+import type { Message, Options, Callback, Topic } from './types';
 
 export default class PubSub {
   private topics: Record<string, Topic> = {};
 
-  private static sendMessageEach(callbacks: Set<Callback>, message: string): void {
+  private static sendMessageEach(callbacks: Set<Callback>, message: Message): void {
     callbacks.forEach((callback) => PubSub.sendMessage(callback, message));
   }
 
-  private static sendMessage(callback: Callback, message: string): void {
+  private static sendMessage(callback: Callback, message: Message): void {
     setTimeout(() => callback(message), 0);
   }
 
@@ -31,12 +31,17 @@ export default class PubSub {
 
   dispatch(topicName: string, message: string, options?: Options): void {
     const { callbacks, messageQueue } = this.getTopic(topicName);
+    const serializedMessage = {
+      topic: topicName,
+      payload: message,
+      date: new Date(),
+    };
 
-    PubSub.sendMessageEach(callbacks, message);
+    PubSub.sendMessageEach(callbacks, serializedMessage);
 
     if (options?.persist) {
       const queue = {
-        message,
+        message: serializedMessage,
         receivers: new Set(callbacks),
       };
       messageQueue.add(queue);
